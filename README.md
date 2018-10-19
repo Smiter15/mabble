@@ -1,7 +1,6 @@
-# Angular Firebase starter pack
+# Angular Firebase card game
 
-This project is built with Angular 6 + firebase 5 using firestore.
-Working authentication, chat application, user profiles and user presence.
+Any resembelence to any existing card games a mere coincidence
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
