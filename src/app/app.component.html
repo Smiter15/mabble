@@ -5,6 +5,9 @@
             <mat-list-item class="mt-60" routerLink="/home" (click)="sidenavLeft.close()">
                 <i class="material-icons">home</i> Home
             </mat-list-item>
+            <mat-list-item class="mt-30" routerLink="/mabble" (click)="sidenavLeft.close()">
+                <i class="material-icons">home</i> Mabble
+            </mat-list-item>
             <mat-list-item class="mt-30 profile" [routerLink]="'/profile/' + appUser?.uid" (click)="sidenavLeft.close()">
                 <img [src]="appUser?.photoURL" />
                 <p><span>{{appUser?.displayName}}</span><br />

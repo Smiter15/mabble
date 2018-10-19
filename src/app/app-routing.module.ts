@@ -13,6 +13,7 @@ import { HomeComponent } from "./home/home.component";
 import { ChatComponent } from "./chat/chat.component";
 import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { UserProfileEditComponent } from "./user-profile-edit/user-profile-edit.component";
+import { MabbleComponent } from "./mabble/mabble.component";
 
 // Routes
 const appRoutes: Routes = [
@@ -20,6 +21,8 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [AlwaysAuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AlwaysAuthGuard] },
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'mabble', component: MabbleComponent, canActivate: [AuthGuard] },
+    { path: 'mabble/:gameId', component: MabbleComponent, canActivate: [AuthGuard] },
     { path: 'chat', canActivate: [AuthGuard],
         children: [
             { path: '', component: ChatComponent, outlet: 'chat' },

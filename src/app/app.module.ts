@@ -33,6 +33,10 @@ import { ChatroomWindowComponent } from './chat/components/chatroom-window/chatr
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
 
+import { MabbleComponent } from './mabble/mabble.component';
+import { CreateComponent } from './mabble/components/create/create.component';
+import { JoinComponent } from './mabble/components/join/join.component';
+
 // Routes
 import { AppRoutingModule } from './app-routing.module';
 
@@ -67,7 +71,10 @@ import { NgxLoadingModule } from "ngx-loading";
         ChatMessageComponent,
         ChatroomWindowComponent,
         UserProfileEditComponent,
-        HomeComponent
+        HomeComponent,
+        MabbleComponent,
+        CreateComponent,
+        JoinComponent
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -1,0 +1,25 @@
+<section class="container">
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Mabble</h1>
+            <p>Your game id is - {{gameId}}</p>
+        </div>
+    </div>
+
+    <div *ngIf="gameId === ''" class="row">
+        <div class="col-sm-6 col-12">
+            <app-create></app-create>
+        </div>
+        <div class="col-sm-6 col-12">
+            <app-join></app-join>
+        </div>
+    </div>
+
+    <div *ngIf="gameId !== ''" class="row">
+        <div class="col-12">
+            {{game?.noPlayers}}
+        </div>
+    </div>
+
+</section>
