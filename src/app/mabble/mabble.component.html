@@ -7,14 +7,18 @@
         </div>
     </div>
 
-    <div *ngIf="gameId === ''" class="row">
-        <div class="col-sm-6 col-12">
-            <app-create></app-create>
-        </div>
-        <div class="col-sm-6 col-12">
-            <app-join></app-join>
-        </div>
-    </div>
+    <mat-tab-group mat-align-tabs="center" *ngIf="gameId === ''" class="row">
+        <mat-tab label="Create">
+            <div class="col-sm-6 col-12">
+                <app-create></app-create>
+            </div>
+        </mat-tab>
+        <mat-tab label="Join">
+            <div class="col-sm-6 col-12">
+                <app-join></app-join>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 
     <section *ngIf="gameId !== ''" class="game-section">
 
