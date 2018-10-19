@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-12">
             <h1>Mabble</h1>
-            <p>Your game id is - {{gameId}}</p>
+            <small *ngIf="gameId">{{gameId}}</small>
         </div>
     </div>
 
@@ -16,10 +16,54 @@
         </div>
     </div>
 
-    <div *ngIf="gameId !== ''" class="row">
-        <div class="col-12">
-            {{game?.noPlayers}}
+    <section *ngIf="gameId !== ''" class="game-section">
+
+        <div class="row players">
+            <div *ngFor="let player of players" class="col text-center">
+                <img [src]="player.photoURL" class="rounded-circle" />
+                <h4>{{player.score}}</h4>
+            </div>
         </div>
-    </div>
+
+        <div *ngIf="game?.noPlayers !== players?.length" class="row">
+            <div class="col-12">
+                <p>Waiting for players to join</p>
+                <h3>{{players?.length}} / {{game?.noPlayers}}</h3>
+            </div>
+        </div>
+
+        <div *ngIf="game?.noPlayers === players?.length" style="height: 80%;">
+
+            <div class="row play-area">
+                <div class="col-12">
+                    Playing board
+                </div>
+            </div>
+
+            <div class="fixed-bottom container m-a">
+                <div class="row">
+                    <div class="col-2 text-center">
+                        <h2>1</h2>
+                    </div>
+                    <div class="col-2 text-center">
+                        <h2>2</h2>
+                    </div>
+                    <div class="col-2 text-center">
+                        <h2>3</h2>
+                    </div>
+                    <div class="col-2 text-center">
+                        <h2>4</h2>
+                    </div>
+                    <div class="col-2 text-center">
+                        <h2>5</h2>
+                    </div>
+                    <div class="col-2 text-center">
+                        <h2>6</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
 
 </section>

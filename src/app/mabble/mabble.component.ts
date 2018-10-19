@@ -17,8 +17,9 @@ export class MabbleComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[] = [];
 
-    private gameId = '';
+    public gameId = '';
     public game: any;
+    public players: any;
 
     constructor(private fb: FormBuilder,
                 private afs: AngularFirestore,
@@ -32,7 +33,6 @@ export class MabbleComponent implements OnInit, OnDestroy {
                     this.gameId = params.get('gameId');
                     this.setGame();
                 }
-                console.log(this.gameId);
             })
         );
     }
@@ -43,10 +43,21 @@ export class MabbleComponent implements OnInit, OnDestroy {
 
     private setGame() {
         console.log('set game');
-        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).valueChanges().subscribe(game => {
-            this.game = game;
-            console.log(this.game);
-        });
+        this.subscriptions.push(
+            this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).valueChanges().subscribe(game => {
+                this.game = game;
+                console.log('game', this.game);
+            })
+        );
+
+        this.subscriptions.push(
+            this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}/players`).valueChanges().subscribe(players => {
+                this.players = players;
+                console.log('players', players);
+                // alert when new player joined
+            })
+        );
+
     }
 
 }

@@ -64,7 +64,7 @@ export class CreateComponent implements OnInit, OnDestroy {
             playingDeck: {}
         };
         this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).add(game).then(game => {
-            // add player
+            // add user to game
             console.log('created game ', game);
             const player = {
                 score: 0,
@@ -74,9 +74,9 @@ export class CreateComponent implements OnInit, OnDestroy {
                 uid: this.currentUser.uid
             };
             this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games/${game.id}/players`).doc(this.currentUser.uid).set(player).then(player => {
-                console.log('added player', player);
+                console.log('added player through create', player);
                 this.loadingService.setLoading(false);
-                // redirect player
+                // send user to game
                 this.router.navigateByUrl('mabble/' + game.id);
             });
         });

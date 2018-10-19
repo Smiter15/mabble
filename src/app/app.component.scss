@@ -17,6 +17,11 @@
 
 .mat-toolbar {
     background: darkorange;
+    @media only screen and (max-width: 600px) {
+        .mobile-p-0 {
+            padding: 0;
+        }
+    }
 }
 
 mat-sidenav {
