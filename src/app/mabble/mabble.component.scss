@@ -36,6 +36,23 @@ h2 {
     .play-area {
         height: 100%;
         background: #ffffba;
+        .play-row {
+            height: 33.3333%;
+            text-align: center;
+            padding-top: 4%;
+            img {
+                width: 60%;
+            }
+        }
+    }
+
+    .play-buttons {
+        .col-2 {
+            padding: 2px;
+        }
+        img {
+            width: 100%;
+        }
     }
 
     .fixed-bottom {
@@ -51,10 +68,6 @@ h2 {
             &:last-child {
                 border-right: none;
             }
-        }
-        h2 {
-            margin: 0;
-            padding: 10px 0;
         }
     }
 }
