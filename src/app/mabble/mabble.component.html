@@ -36,48 +36,17 @@
             </div>
         </div>
 
-        <div *ngIf="game?.noPlayers === players?.length" style="height: 80%;">
-
+        <div *ngIf="game?.started === true" style="height: 80%;">
             <div class="row play-area">
-                <div class="col-6 play-row">
-                    <img src="assets/icons/wildlife/png/1.png" />
-                </div>
-                <div class="col-6 play-row">
-                    <img src="assets/icons/wildlife/png/2.png" />
-                </div>
-                <div class="col-6 play-row">
-                    <img src="assets/icons/wildlife/png/3.png" />
-                </div>
-                <div class="col-6 play-row">
-                    <img src="assets/icons/wildlife/png/4.png" />
-                </div>
-                <div class="col-6 play-row">
-                    <img src="assets/icons/wildlife/png/5.png" />
-                </div>
-                <div class="col-6 play-row">
-                    <img src="assets/icons/wildlife/png/6.png" />
+                <div class="col-6 play-row" *ngFor="let image of game?.deck6['card'+game?.playingCard]">
+                    <img [src]="'assets/icons/wildlife/png/' + image + '.png'" />
                 </div>
             </div>
 
             <div class="fixed-bottom container m-a play-buttons">
                 <div class="row">
-                    <div class="col-2 text-center">
-                        <img src="assets/icons/wildlife/png/1.png" />
-                    </div>
-                    <div class="col-2 text-center">
-                        <img src="assets/icons/wildlife/png/2.png" />
-                    </div>
-                    <div class="col-2 text-center">
-                        <img src="assets/icons/wildlife/png/3.png" />
-                    </div>
-                    <div class="col-2 text-center">
-                        <img src="assets/icons/wildlife/png/4.png" />
-                    </div>
-                    <div class="col-2 text-center">
-                        <img src="assets/icons/wildlife/png/5.png" />
-                    </div>
-                    <div class="col-2 text-center">
-                        <img src="assets/icons/wildlife/png/6.png" />
+                    <div class="col-2 text-center" *ngFor="let image of game?.deck6['card'+playerCards[playerCard]]">
+                        <img [src]="'assets/icons/wildlife/png/' + image + '.png'" (click)="snap(image)" />
                     </div>
                 </div>
             </div>

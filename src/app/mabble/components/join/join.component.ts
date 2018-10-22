@@ -81,8 +81,6 @@ export class JoinComponent implements OnInit, OnDestroy {
                 console.log("game data", game.data());
             } else {
                 this.loadingService.setLoading(false);
-                // alert user that game does not exist
-                // doc.data() will be undefined in this case
                 console.log("No such document!");
                 this.alertService.sendAlert('That game does not exist!', AlertType.Danger);
             }

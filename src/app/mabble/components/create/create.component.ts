@@ -57,18 +57,21 @@ export class CreateComponent implements OnInit, OnDestroy {
     createGame() {
         this.loadingService.setLoading(true);
         const game = {
-            deck6: deck6.deck6,
+            deck6: deck6.deck6, // dynamic in future
+            // theme: 'wildlife' // TODO
             createdAt: new Date(),
+            creator: this.currentUser.uid,
+            started: false,
             finished: false,
             noPlayers: this.createGameForm.value.noPlayers,
-            playingDeck: {}
+            playingCard: null
         };
         this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).add(game).then(game => {
             // add user to game
             console.log('created game ', game);
             const player = {
                 score: 0,
-                cards: {},
+                cards: [],
                 displayName: this.currentUser.displayName,
                 photoURL: this.currentUser.photoURL,
                 uid: this.currentUser.uid
