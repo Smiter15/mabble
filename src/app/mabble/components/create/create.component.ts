@@ -63,6 +63,8 @@ export class CreateComponent implements OnInit, OnDestroy {
             creator: this.currentUser.uid,
             started: false,
             finished: false,
+            winnerName: null,
+            winnerImageURL: null,
             noPlayers: this.createGameForm.value.noPlayers,
             playingCard: null
         };

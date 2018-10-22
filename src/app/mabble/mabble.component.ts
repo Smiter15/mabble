@@ -23,8 +23,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
     public players: any;
     public playerCards: any;
     public playerCard = 0;
-
-    score = 0;
+    private score = 0;
 
     constructor(private fb: FormBuilder,
                 private afs: AngularFirestore,
@@ -100,9 +99,6 @@ export class MabbleComponent implements OnInit, OnDestroy {
 
     private startGame() {
         console.log('startGame');
-        // shuffle deck
-        // deal starting card
-
         setTimeout(() => {
             this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
                 started: true
@@ -122,10 +118,15 @@ export class MabbleComponent implements OnInit, OnDestroy {
             if (this.playerCard < this.playerCards.length) {
                 this.playerCard++;
             }
-            if (this.playerCards === this.playerCards.length) {
-                // player wins
-                // stop game
+            // player runs out of cards
+            if (this.playerCard === this.playerCards.length) {
+                this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
+                    winnerName: this.currentUser.displayName,
+                    winnerImageURL: this.currentUser.photoURL,
+                    finished: true
+                });
             }
+            console.log(this.playerCard, this.playerCards.length);
         } else {
             this.score--;
         }
@@ -133,6 +134,13 @@ export class MabbleComponent implements OnInit, OnDestroy {
             score: this.score
         });
 
+    }
+
+    public playAgain() {
+        // create a new game with existing users
+        // add a this user to vote count
+        // total votes === noPlayers
+            // create new game and send them there
     }
 
     shuffle(array) {
@@ -156,31 +164,22 @@ export class MabbleComponent implements OnInit, OnDestroy {
     }
 
     deal(a, n, balanced) {
-
         if (n < 2)
             return [a];
 
-        let len = a.length,
-            out = [],
-            i = 0,
-            size;
+        let len = a.length, out = [], i = 0, size;
 
         if (len % n === 0) {
             size = Math.floor(len / n);
             while (i < len) {
                 out.push(a.slice(i, i += size));
             }
-        }
-
-        else if (balanced) {
+        } else if (balanced) {
             while (i < len) {
                 size = Math.ceil((len - i) / n--);
                 out.push(a.slice(i, i += size));
             }
-        }
-
-        else {
-
+        } else {
             n--;
             size = Math.floor(len / n);
             if (len % size === 0)
@@ -189,9 +188,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
                 out.push(a.slice(i, i += size));
             }
             out.push(a.slice(size * n));
-
         }
-
         return out;
     }
 
