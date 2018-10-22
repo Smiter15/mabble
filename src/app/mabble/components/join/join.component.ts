@@ -52,33 +52,29 @@ export class JoinComponent implements OnInit, OnDestroy {
         this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).doc(this.joinGameForm.value.gameId).get().then(game => {
             if (game.exists) {
                 this.loadingService.setLoading(true);
-                this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.joinGameForm.value.gameId}/players`).get().then(players => {
-                    const currentPlayers = players.size; // will return the collection size
-                    // check game has space
-
-                    // if user already in game dont add them just redirect
-
-                    if (currentPlayers < game.data().noPlayers) {
-                        // add user to game
-                        const player = {
-                            score: 0,
-                            cards: {},
-                            displayName: this.currentUser.displayName,
-                            photoURL: this.currentUser.photoURL,
-                            uid: this.currentUser.uid
-                        };
-                        this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.joinGameForm.value.gameId}/players`).doc(this.currentUser.uid).set(player).then(player => {
-                            console.log('added player through join', player);
-                            this.loadingService.setLoading(false);
-                            // send user to game
-                            this.router.navigateByUrl('mabble/' + this.joinGameForm.value.gameId);
-                        });
-                    } else {
+                console.log('game', game.data());
+                if(Object.keys(game.data().players).length < game.data().noPlayers) {
+                    let players = game.data().players;
+                    let player = {};
+                    player = {
+                        score: 0,
+                        displayName: this.currentUser.displayName,
+                        photoURL: this.currentUser.photoURL,
+                        uid: this.currentUser.uid
+                    };
+                    players[this.currentUser.uid] = player;
+                    this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).doc(this.joinGameForm.value.gameId).update({
+                        players: players
+                    }).then(() => {
+                        console.log('added player through join', player);
                         this.loadingService.setLoading(false);
-                        this.alertService.sendAlert('Game has finished!', AlertType.Danger);
-                    }
-                });
-                console.log("game data", game.data());
+                        // send user to game
+                        this.router.navigateByUrl('mabble/' + this.joinGameForm.value.gameId);
+                    });
+                } else {
+                    this.loadingService.setLoading(false);
+                    this.alertService.sendAlert('Game has finished!', AlertType.Danger);
+                }
             } else {
                 this.loadingService.setLoading(false);
                 console.log("No such document!");

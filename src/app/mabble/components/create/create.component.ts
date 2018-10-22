@@ -56,6 +56,13 @@ export class CreateComponent implements OnInit, OnDestroy {
 
     createGame() {
         this.loadingService.setLoading(true);
+        let player = {};
+        player[this.currentUser.uid] = {
+            score: 0,
+            displayName: this.currentUser.displayName,
+            photoURL: this.currentUser.photoURL,
+            uid: this.currentUser.uid
+        };
         const game = {
             deck6: deck6.deck6, // dynamic in future
             // theme: 'wildlife' // TODO
@@ -66,24 +73,16 @@ export class CreateComponent implements OnInit, OnDestroy {
             winnerName: null,
             winnerImageURL: null,
             noPlayers: this.createGameForm.value.noPlayers,
-            playingCard: null
+            playingCard: null,
+            players: player
         };
         this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).add(game).then(game => {
             // add user to game
             console.log('created game ', game);
-            const player = {
-                score: 0,
-                cards: [],
-                displayName: this.currentUser.displayName,
-                photoURL: this.currentUser.photoURL,
-                uid: this.currentUser.uid
-            };
-            this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games/${game.id}/players`).doc(this.currentUser.uid).set(player).then(player => {
-                console.log('added player through create', player);
-                this.loadingService.setLoading(false);
-                // send user to game
-                this.router.navigateByUrl('mabble/' + game.id);
-            });
+            console.log('added player through create', player);
+            this.loadingService.setLoading(false);
+            // send user to game
+            this.router.navigateByUrl('mabble/' + game.id);
         });
     }
 

@@ -23,16 +23,16 @@
     <section *ngIf="gameId !== ''" class="game-section">
 
         <div class="row players">
-            <div *ngFor="let player of players" class="col text-center">
-                <img [src]="player.photoURL" class="rounded-circle" />
-                <h4>{{player.score}}</h4>
+            <div *ngFor="let player of game?.players | keyvalue" class="col text-center">
+                <img [src]="game?.players[player.key]?.photoURL" class="rounded-circle" />
+                <h4>{{game?.players[player.key]?.score}}</h4>
             </div>
         </div>
 
-        <div *ngIf="game?.noPlayers !== players?.length" class="row">
+        <div *ngIf="game?.noPlayers !== playersLength" class="row">
             <div class="col-12">
                 <p>Waiting for players to join</p>
-                <h3>{{players?.length}} / {{game?.noPlayers}}</h3>
+                <h3>{{playersLength}} / {{game?.noPlayers}}</h3>
             </div>
         </div>
 

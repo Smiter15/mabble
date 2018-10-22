@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy{
 
     appUser: any;
 
-    constructor(private auth: AuthService,
+    constructor(public auth: AuthService,
                 private alertService: AlertService,
                 private loadingService: LoadingService) { }
 

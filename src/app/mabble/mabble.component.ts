@@ -20,7 +20,8 @@ export class MabbleComponent implements OnInit, OnDestroy {
 
     public gameId = '';
     public game: any;
-    public players: any;
+    private players = [];
+    public playersLength: any;
     public playerCards: any;
     public playerCard = 0;
     private score = 0;
@@ -56,12 +57,8 @@ export class MabbleComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).valueChanges().subscribe(game => {
                 this.game = game;
-            })
-        );
-
-        this.subscriptions.push(
-            this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}/players`).valueChanges().subscribe(players => {
-                this.players = players;
+                this.players = Object.keys(this.game.players);
+                this.playersLength = Object.keys(this.game.players).length;
             })
         );
 
@@ -82,16 +79,13 @@ export class MabbleComponent implements OnInit, OnDestroy {
             // deal player cards
             const dealtCards = this.deal(cards, this.game.noPlayers, true);
 
-            for(let i = 0; i < this.players.length; i++) {
-                this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}/players/${this.players[i].uid}`).update({
-                    cards: dealtCards[i]
-                });
-                if (this.currentUser.uid === this.players[i].uid) {
+            for(let i = 0; i < this.playersLength ; i++) {
+                if (this.currentUser.uid === this.players[i]) {
                     this.playerCards = dealtCards[i];
                 }
             }
-            if(this.game.noPlayers === this.players.length) {
-                this.startGame()
+            if(this.game.noPlayers === this.playersLength) {
+                this.startGame();
             }
         }, 1000);
 
@@ -126,14 +120,12 @@ export class MabbleComponent implements OnInit, OnDestroy {
                     finished: true
                 });
             }
-            console.log(this.playerCard, this.playerCards.length);
         } else {
             this.score--;
         }
-        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}/players/${this.currentUser.uid}`).update({
-            score: this.score
-        });
-
+        const playerId = {};
+        playerId[`players.${this.currentUser.uid}.score`] = this.score;
+        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update(playerId);
     }
 
     public playAgain() {

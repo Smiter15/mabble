@@ -43,6 +43,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from "../environments/environment";
 
 import { NgxLoadingModule } from "ngx-loading";
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
     imports: [
@@ -57,7 +58,8 @@ import { NgxLoadingModule } from "ngx-loading";
         AlertModule.forRoot(),
         AppRoutingModule,
         NgxLoadingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     declarations: [
         AppComponent,
