@@ -59,6 +59,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
                 this.game = game;
                 this.players = Object.keys(this.game.players);
                 this.playersLength = Object.keys(this.game.players).length;
+                this.checkSnap(this.players);
             })
         );
 
@@ -136,6 +137,35 @@ export class MabbleComponent implements OnInit, OnDestroy {
                 this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update(playerId);
             }
         });
+    }
+
+    private checkSnap(players) {
+        for(let i = 0; i < this.playersLength ; i++) {
+            if (this.game.players[players[i]].playerClass === 'wrong') {
+                this.playWrongSound();
+                return;
+            }
+            if (this.game.players[players[i]].playerClass === 'correct') {
+                this.playCorrectSound();
+                return;
+            }
+        }
+    }
+
+    private playCorrectSound() {
+        console.log('correct sound');
+        let audio = new Audio();
+        audio.src = "../../assets/audio/ting.mp3";
+        audio.load();
+        audio.play();
+    }
+
+    private playWrongSound() {
+        console.log('wrong sound');
+        let audio = new Audio();
+        audio.src = "../../assets/audio/quack.mp3";
+        audio.load();
+        audio.play();
     }
 
     public playAgain() {

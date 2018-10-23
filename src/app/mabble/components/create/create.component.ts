@@ -76,7 +76,8 @@ export class CreateComponent implements OnInit, OnDestroy {
             winnerImageURL: null,
             noPlayers: this.createGameForm.value.noPlayers,
             playingCard: null,
-            players: player
+            players: player,
+            playAgainVotes: 0
         };
         this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).add(game).then(game => {
             // add user to game
