@@ -8,15 +8,15 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { MaterialModule } from './material.module';
 
 // Angular Firebase
-import { AngularFireModule } from "@angular/fire";
-import { AngularFireAuthModule } from "@angular/fire/auth";
-import { AngularFirestoreModule } from "@angular/fire/firestore";
-import { AngularFireDatabaseModule } from "@angular/fire/database";
-import { AngularFireStorageModule } from "@angular/fire/storage";
-import { AngularFireMessagingModule } from "@angular/fire/messaging";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 // Bootstrap
-import { AlertModule } from "ngx-bootstrap";
+import { AlertModule } from 'ngx-bootstrap';
 
 // Components
 import { AppComponent } from './app.component';
@@ -43,9 +43,10 @@ import { JoinComponent } from './mabble/components/join/join.component';
 // Routes
 import { AppRoutingModule } from './app-routing.module';
 
-import { environment } from "../environments/environment";
+import { environment } from '../environments/environment';
 
-import { NgxLoadingModule } from "ngx-loading";
+import { NgxLoadingModule } from 'ngx-loading';
+import { PlayAgainComponent } from './mabble/components/play-again/play-again.component';
 
 @NgModule({
     imports: [
@@ -80,7 +81,8 @@ import { NgxLoadingModule } from "ngx-loading";
         HomeComponent,
         MabbleComponent,
         CreateComponent,
-        JoinComponent
+        JoinComponent,
+        PlayAgainComponent
     ],
     providers: [],
     bootstrap: [AppComponent]

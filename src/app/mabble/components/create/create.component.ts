@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Subscription } from "rxjs/index";
+import { Subscription } from 'rxjs';
 
-import { AuthService } from "../../../_services/auth.service";
-import { AlertService } from "../../../_services/alert.service";
-import { LoadingService } from "../../../_services/loading.service";
+import { AuthService } from '../../../_services/auth.service';
+import { AlertService } from '../../../_services/alert.service';
+import { LoadingService } from '../../../_services/loading.service';
 
 import * as deck6 from 'src/app/mabble/decks/deck6.default.js';
 
@@ -56,7 +56,7 @@ export class CreateComponent implements OnInit, OnDestroy {
 
     createGame() {
         this.loadingService.setLoading(true);
-        let player = {};
+        const player = {};
         player[this.currentUser.uid] = {
             score: 0,
             displayName: this.currentUser.displayName,
@@ -77,7 +77,8 @@ export class CreateComponent implements OnInit, OnDestroy {
             noPlayers: this.createGameForm.value.noPlayers,
             playingCard: null,
             players: player,
-            playAgainVotes: 0
+            playAgainVotes: 0,
+            nextGameURL: null
         };
         this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).add(game).then(game => {
             // add user to game
@@ -85,7 +86,7 @@ export class CreateComponent implements OnInit, OnDestroy {
             console.log('added player through create', player);
             this.loadingService.setLoading(false);
             // send user to game
-            this.router.navigateByUrl('mabble/' + game.id);
+            this.router.navigateByUrl(`mabble/${game.id}`);
         });
     }
 

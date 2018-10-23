@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import * as firebase from 'firebase';
 
-import { Subscription } from "rxjs/index";
+import { Subscription } from 'rxjs';
 
-import { AuthService } from "../../../_services/auth.service";
-import { AlertService } from "../../../_services/alert.service";
-import { LoadingService } from "../../../_services/loading.service";
+import { AuthService } from '../../../_services/auth.service';
+import { AlertService } from '../../../_services/alert.service';
+import { LoadingService } from '../../../_services/loading.service';
 
-import { AlertType } from "../../../_enums/alert-type.enum";
+import { AlertType } from '../../../_enums/alert-type.enum';
 
 @Component({
     selector: 'app-join',
@@ -53,8 +53,8 @@ export class JoinComponent implements OnInit, OnDestroy {
             if (game.exists) {
                 this.loadingService.setLoading(true);
                 console.log('game', game.data());
-                if(Object.keys(game.data().players).length < game.data().noPlayers) {
-                    let players = game.data().players;
+                if (Object.keys(game.data().players).length < game.data().noPlayers) {
+                    const players = game.data().players;
                     let player = {};
                     player = {
                         score: 0,
@@ -79,7 +79,7 @@ export class JoinComponent implements OnInit, OnDestroy {
                 }
             } else {
                 this.loadingService.setLoading(false);
-                console.log("No such document!");
+                console.log('No such document!');
                 this.alertService.sendAlert('That game does not exist!', AlertType.Danger);
             }
         });

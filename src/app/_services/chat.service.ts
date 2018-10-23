@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { switchMap, map } from "rxjs/operators";
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
-import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFirestore } from '@angular/fire/firestore';
 
-import { AuthService } from "./auth.service";
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'

@@ -57,9 +57,10 @@
                 <div class="col-12 text-center">
                     <img [src]="game.winnerImageURL" class="rounded-circle" />
                     <h2>{{game.winnerName}}<br />Wins !</h2>
-                    <button mat-raised-button color="primary">Play again?</button>
+                    <button mat-raised-button color="primary" (click)="playAgainVote()" [disabled]="disableVoteButton">Play again?</button>
                     <br /><br />
-                    <small>Votes 0 / {{game.noPlayers}}</small>
+                    <small>Votes {{votes}} / {{game.noPlayers}}</small>
+                    <app-play-again></app-play-again>
                 </div>
             </div>
         </div>

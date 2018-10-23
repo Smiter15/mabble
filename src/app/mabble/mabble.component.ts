@@ -1,12 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder } from "@angular/forms";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
 
-import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Subscription } from "rxjs/index";
+import { Subscription } from 'rxjs';
 
-import { AuthService } from "../_services/auth.service";
+import { AuthService } from '../_services/auth.service';
+
+import { PlayAgainComponent } from './components/play-again/play-again.component';
 
 @Component({
     selector: 'app-mabble',
@@ -14,6 +16,7 @@ import { AuthService } from "../_services/auth.service";
     styleUrls: ['./mabble.component.scss']
 })
 export class MabbleComponent implements OnInit, OnDestroy {
+    @ViewChild(PlayAgainComponent) playAgainComponent: PlayAgainComponent;
 
     private subscriptions: Subscription[] = [];
     public currentUser: any = null;
@@ -21,14 +24,18 @@ export class MabbleComponent implements OnInit, OnDestroy {
     public gameId = '';
     public game: any;
     private players = [];
-    public playersLength: any;
+    public playersLength = 0;
     public playerCards: any;
     public playerCard = 0;
     private score = 0;
+    public votes = 0;
+
+    public disableVoteButton = false;
 
     constructor(private fb: FormBuilder,
                 private afs: AngularFirestore,
                 public auth: AuthService,
+                private router: Router,
                 private route: ActivatedRoute) {
         this.subscriptions.push(
             this.auth.currentUser.subscribe(user => {
@@ -54,12 +61,18 @@ export class MabbleComponent implements OnInit, OnDestroy {
 
     private setGame() {
         console.log('set game');
+        // reset stuff for play again feature
+        this.score = 0; this.playerCard = 0; this.votes = 0; this.playersLength = 0; this.disableVoteButton = false;
         this.subscriptions.push(
             this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).valueChanges().subscribe(game => {
                 this.game = game;
                 this.players = Object.keys(this.game.players);
                 this.playersLength = Object.keys(this.game.players).length;
+                this.votes = this.game.playAgainVotes;
                 this.checkSnap(this.players);
+                if (this.game.nextGameURL !== null) {
+                    this.router.navigateByUrl(this.game.nextGameURL);
+                }
             })
         );
 
@@ -73,19 +86,19 @@ export class MabbleComponent implements OnInit, OnDestroy {
             }
 
             // remaining cards
-            let cards = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+            const cards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
             cards.splice(cards.indexOf(random), 1);
             this.shuffle(cards);
 
             // deal player cards
             const dealtCards = this.deal(cards, this.game.noPlayers, true);
-
-            for(let i = 0; i < this.playersLength ; i++) {
+            for (let i = 0; i < this.playersLength ; i++) {
                 if (this.currentUser.uid === this.players[i]) {
                     this.playerCards = dealtCards[i];
                 }
             }
-            if(this.game.noPlayers === this.playersLength) {
+
+            if (this.game.noPlayers === this.playersLength) {
                 this.startGame();
             }
         }, 1000);
@@ -104,7 +117,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
 
     public snap(image) {
         let playerClass = '';
-        if (this.game.deck6['card'+this.game.playingCard].indexOf(image) !== -1) {
+        if (this.game.deck6['card' + this.game.playingCard].indexOf(image) !== -1) {
             this.score++;
             playerClass = 'correct';
             // add player's card to playing deck
@@ -140,7 +153,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
     }
 
     private checkSnap(players) {
-        for(let i = 0; i < this.playersLength ; i++) {
+        for (let i = 0; i < this.playersLength ; i++) {
             if (this.game.players[players[i]].playerClass === 'wrong') {
                 this.playWrongSound();
                 return;
@@ -152,23 +165,30 @@ export class MabbleComponent implements OnInit, OnDestroy {
         }
     }
 
-    public playAgain() {
-        // create a new game with existing users
-        // add a this user to vote count
-        // total votes === noPlayers
-            // create new game and send them there
+    public playAgainVote() {
+        this.votes++;
+        this.disableVoteButton = true;
+        // add vote
+        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
+            playAgainVotes: this.votes
+        }).then(() => {
+            // this will only work for last player to vote
+            if (this.votes === this.game.noPlayers) {
+                this.playAgainComponent.create(this.game, this.gameId);
+            }
+        });
     }
 
     private playCorrectSound() {
-        let audio = new Audio();
-        audio.src = "../../assets/audio/ting.mp3";
+        const audio = new Audio();
+        audio.src = '../../assets/audio/ting.mp3';
         audio.load();
         audio.play();
     }
 
     private playWrongSound() {
-        let audio = new Audio();
-        audio.src = "../../assets/audio/quack.mp3";
+        const audio = new Audio();
+        audio.src = '../../assets/audio/quack.mp3';
         audio.load();
         audio.play();
     }
@@ -179,13 +199,13 @@ export class MabbleComponent implements OnInit, OnDestroy {
         // While there are elements in the array
         while (counter > 0) {
             // Pick a random index
-            let index = Math.floor(Math.random() * counter);
+            const index = Math.floor(Math.random() * counter);
 
             // Decrease counter by 1
             counter--;
 
             // And swap the last element with it
-            let temp = array[counter];
+            const temp = array[counter];
             array[counter] = array[index];
             array[index] = temp;
         }
@@ -194,10 +214,10 @@ export class MabbleComponent implements OnInit, OnDestroy {
     }
 
     deal(a, n, balanced) {
-        if (n < 2)
-            return [a];
+        if (n < 2) { return [a]; }
 
-        let len = a.length, out = [], i = 0, size;
+        const len = a.length, out = [];
+        let size, i = 0;
 
         if (len % n === 0) {
             size = Math.floor(len / n);
@@ -212,8 +232,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
         } else {
             n--;
             size = Math.floor(len / n);
-            if (len % size === 0)
-                size--;
+            if (len % size === 0) { size--; }
             while (i < size * n) {
                 out.push(a.slice(i, i += size));
             }
