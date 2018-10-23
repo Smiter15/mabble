@@ -152,8 +152,14 @@ export class MabbleComponent implements OnInit, OnDestroy {
         }
     }
 
+    public playAgain() {
+        // create a new game with existing users
+        // add a this user to vote count
+        // total votes === noPlayers
+            // create new game and send them there
+    }
+
     private playCorrectSound() {
-        console.log('correct sound');
         let audio = new Audio();
         audio.src = "../../assets/audio/ting.mp3";
         audio.load();
@@ -161,18 +167,10 @@ export class MabbleComponent implements OnInit, OnDestroy {
     }
 
     private playWrongSound() {
-        console.log('wrong sound');
         let audio = new Audio();
         audio.src = "../../assets/audio/quack.mp3";
         audio.load();
         audio.play();
-    }
-
-    public playAgain() {
-        // create a new game with existing users
-        // add a this user to vote count
-        // total votes === noPlayers
-            // create new game and send them there
     }
 
     shuffle(array) {

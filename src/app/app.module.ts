@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 // Material
 import { MaterialModule } from './material.module';
@@ -10,7 +11,9 @@ import { MaterialModule } from './material.module';
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireStorageModule } from "@angular/fire/storage";
+import { AngularFireMessagingModule } from "@angular/fire/messaging";
 
 // Bootstrap
 import { AlertModule } from "ngx-bootstrap";
@@ -43,7 +46,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from "../environments/environment";
 
 import { NgxLoadingModule } from "ngx-loading";
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
     imports: [
@@ -54,7 +56,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFirestoreModule.enablePersistence(),
+        AngularFireDatabaseModule,
         AngularFireStorageModule,
+        AngularFireMessagingModule,
         AlertModule.forRoot(),
         AppRoutingModule,
         NgxLoadingModule,
