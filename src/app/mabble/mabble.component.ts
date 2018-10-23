@@ -102,8 +102,10 @@ export class MabbleComponent implements OnInit, OnDestroy {
     }
 
     public snap(image) {
+        let playerClass = '';
         if (this.game.deck6['card'+this.game.playingCard].indexOf(image) !== -1) {
             this.score++;
+            playerClass = 'correct';
             // add player's card to playing deck
             this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
                 playingCard: this.playerCards[this.playerCard]
@@ -114,6 +116,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
             }
             // player runs out of cards
             if (this.playerCard === this.playerCards.length) {
+                playerClass = 'finished';
                 this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
                     winnerName: this.currentUser.displayName,
                     winnerImageURL: this.currentUser.photoURL,
@@ -121,11 +124,18 @@ export class MabbleComponent implements OnInit, OnDestroy {
                 });
             }
         } else {
+            playerClass = 'wrong';
             this.score--;
         }
         const playerId = {};
         playerId[`players.${this.currentUser.uid}.score`] = this.score;
-        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update(playerId);
+        playerId[`players.${this.currentUser.uid}.playerClass`] = playerClass;
+        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update(playerId).then(() => {
+            if (playerClass !== 'finished') {
+                playerId[`players.${this.currentUser.uid}.playerClass`] = null;
+                this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update(playerId);
+            }
+        });
     }
 
     public playAgain() {

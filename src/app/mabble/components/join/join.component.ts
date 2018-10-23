@@ -60,7 +60,9 @@ export class JoinComponent implements OnInit, OnDestroy {
                         score: 0,
                         displayName: this.currentUser.displayName,
                         photoURL: this.currentUser.photoURL,
-                        uid: this.currentUser.uid
+                        uid: this.currentUser.uid,
+                        playerClass: null,
+                        imageClass: null
                     };
                     players[this.currentUser.uid] = player;
                     this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).doc(this.joinGameForm.value.gameId).update({

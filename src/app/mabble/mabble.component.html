@@ -23,7 +23,7 @@
     <section *ngIf="gameId !== ''" class="game-section">
 
         <div class="row players">
-            <div *ngFor="let player of game?.players | keyvalue" class="col text-center">
+            <div *ngFor="let player of game?.players | keyvalue" class="col text-center player" [ngClass]="game.players[player.key].playerClass">
                 <img [src]="game?.players[player.key]?.photoURL" class="rounded-circle" />
                 <h4>{{game?.players[player.key]?.score}}</h4>
             </div>

@@ -26,10 +26,22 @@ h2 {
         height: 80vh;
     }
     .players {
-        height: 15%;
-        img {
-            width: 35px;
-            height: 35px;
+        height: 17%;
+        .player {
+            padding-top: 5px;
+            img {
+                width: 35px;
+                height: 35px;
+            }
+            &.correct {
+                animation: correct-transition 0.5s linear;
+            }
+            &.wrong {
+                animation: wrong-transition 0.5s linear;
+            }
+            &.finished {
+                background-color: #ffff86;
+            }
         }
     }
 
@@ -81,5 +93,29 @@ h2 {
             max-width: 200px;
             max-height: 200px;
         }
+    }
+}
+
+@keyframes correct-transition {
+    0% {
+        background: #eaeaea;
+    }
+    50% {
+        background: #85ff85;
+    }
+    100% {
+        background: #eaeaea;
+    }
+}
+
+@keyframes wrong-transition {
+    0% {
+        background: #eaeaea;
+    }
+    50% {
+        background: #ff5555;
+    }
+    100% {
+        background: #eaeaea;
     }
 }

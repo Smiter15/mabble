@@ -61,7 +61,9 @@ export class CreateComponent implements OnInit, OnDestroy {
             score: 0,
             displayName: this.currentUser.displayName,
             photoURL: this.currentUser.photoURL,
-            uid: this.currentUser.uid
+            uid: this.currentUser.uid,
+            playerClass: null,
+            imageClass: null
         };
         const game = {
             deck6: deck6.deck6, // dynamic in future
