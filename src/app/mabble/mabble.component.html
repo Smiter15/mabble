@@ -24,13 +24,9 @@
 
         <div class="players">
             <div class="row">
-                <div *ngFor="let player of players" class="col text-center player-photo player" [ngClass]="game.players[player].playerClass">
+                <div *ngFor="let player of players" class="col text-center player" [ngClass]="game.players[player].playerClass">
                     <img [src]="game?.players[player].photoURL" class="rounded-circle" />
-                </div>
-            </div>
-            <div class="row">
-                <div *ngFor="let player of game?.players | keyvalue" class="col text-center player" [ngClass]="game.players[player.key].playerClass">
-                    <h4>{{game?.players[player.key]?.score}}</h4>
+                    <h4>{{game?.players[player]?.score}}</h4>
                 </div>
             </div>
         </div>

@@ -39,6 +39,7 @@ import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.
 import { MabbleComponent } from './mabble/mabble.component';
 import { CreateComponent } from './mabble/components/create/create.component';
 import { JoinComponent } from './mabble/components/join/join.component';
+import { PlayAgainComponent } from './mabble/components/play-again/play-again.component';
 
 // Routes
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +47,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 
 import { NgxLoadingModule } from 'ngx-loading';
-import { PlayAgainComponent } from './mabble/components/play-again/play-again.component';
 
 @NgModule({
     imports: [

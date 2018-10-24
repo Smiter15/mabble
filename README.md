@@ -1,9 +1,11 @@
 # Angular Firebase card game
 
-Any resembelence to any existing card games a mere coincidence
+Any resemblance to any existing card games a mere coincidence
 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli)
+
+Project using Angular version 7.0.0
 
 ## Development server
 
