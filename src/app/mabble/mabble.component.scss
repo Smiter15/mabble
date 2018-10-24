@@ -27,11 +27,16 @@ h2 {
     }
     .players {
         height: 17%;
-        .player {
+        .player-photo {
             padding-top: 5px;
             img {
                 width: 35px;
                 height: 35px;
+            }
+        }
+        .player {
+            h4 {
+                margin-bottom: 0;
             }
             &.correct {
                 animation: correct-transition 0.5s linear;

@@ -10,6 +10,8 @@ import { AuthService } from '../_services/auth.service';
 
 import { PlayAgainComponent } from './components/play-again/play-again.component';
 
+import { Howl, Howler } from 'howler';
+
 @Component({
     selector: 'app-mabble',
     templateUrl: './mabble.component.html',
@@ -29,8 +31,11 @@ export class MabbleComponent implements OnInit, OnDestroy {
     public playerCard = 0;
     private score = 0;
     public votes = 0;
-
     public disableVoteButton = false;
+
+    // sounds
+    private ting = new Howl({src: ['assets/audio/ting.mp3']});
+    private quack = new Howl({src: ['assets/audio/quack.mp3']});
 
     constructor(private fb: FormBuilder,
                 private afs: AngularFirestore,
@@ -155,11 +160,11 @@ export class MabbleComponent implements OnInit, OnDestroy {
     private checkSnap(players) {
         for (let i = 0; i < this.playersLength ; i++) {
             if (this.game.players[players[i]].playerClass === 'wrong') {
-                this.playWrongSound();
+                this.quack.play();
                 return;
             }
             if (this.game.players[players[i]].playerClass === 'correct') {
-                this.playCorrectSound();
+                this.ting.play();
                 return;
             }
         }
@@ -177,20 +182,6 @@ export class MabbleComponent implements OnInit, OnDestroy {
                 this.playAgainComponent.create(this.game, this.gameId);
             }
         });
-    }
-
-    private playCorrectSound() {
-        const audio = new Audio();
-        audio.src = '../../assets/audio/ting.mp3';
-        audio.load();
-        audio.play();
-    }
-
-    private playWrongSound() {
-        const audio = new Audio();
-        audio.src = '../../assets/audio/quack.mp3';
-        audio.load();
-        audio.play();
     }
 
     shuffle(array) {

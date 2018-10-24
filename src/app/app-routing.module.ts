@@ -31,7 +31,7 @@ const appRoutes: Routes = [
     },
     { path: 'profile/:userId', component: UserProfileComponent, canActivate: [AuthGuard] },
     { path: 'profile/:userId/edit', component: UserProfileEditComponent, canActivate: [AuthGuard, IsOwnerGuard] },
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({
