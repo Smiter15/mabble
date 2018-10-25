@@ -7,11 +7,6 @@ import { map, take, tap } from "rxjs/operators";
 import { AuthService } from "../_services/auth.service";
 import { AlertService } from "../_services/alert.service";
 
-import { Alert } from "../_interfaces/alert.interface";
-
-import { AlertType } from "../_enums/alert-type.enum";
-import {current} from "codelyzer/util/syntaxKind";
-
 @Injectable({
     providedIn: 'root',
 })
@@ -31,7 +26,7 @@ export class IsOwnerGuard implements CanActivate {
             map((currentUser) => !!currentUser && currentUser.uid === next.params.userId),
             tap((isOwner) => {
                 if (!isOwner) {
-                    this.alertService.sendAlert('You can only edit your own profile.', AlertType.Danger);
+                    this.alertService.sendAlert('You can only edit your own profile.');
                     this.router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
                 }
             })

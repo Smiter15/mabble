@@ -10,8 +10,6 @@ import { tap, map, take } from 'rxjs/operators';
 import { AuthService } from "../_services/auth.service";
 import { AlertService } from "../_services/alert.service";
 
-import { AlertType } from "../_enums/alert-type.enum";
-
 @Injectable({
     providedIn: 'root'
 })
@@ -25,17 +23,17 @@ export class AuthGuard implements CanActivate {
             map(user => !!user),
             tap(loggedIn => {
                 if (!loggedIn) {
-                    this.alertService.sendAlert('You need to be logged in.', AlertType.Danger);
+                    this.alertService.sendAlert('You need to be logged in.');
                     this.router.navigate([''], {queryParams: {returnUrl: state.url}});
                 } else {
                     firebase.database().ref(`/status/${this.auth.currentUserSnapshot.uid}`).set({
                         state: 'online',
                         lastChanged: firebase.database.ServerValue.TIMESTAMP,
                     });
-                    this.afs.doc(`status/${this.auth.currentUserSnapshot.uid}`).set({
+                    this.afs.doc(`users/${this.auth.currentUserSnapshot.uid}`).set({
                         state: 'online',
                         lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
-                    });
+                    }, {merge: true});
                 }
             })
         );

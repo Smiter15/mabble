@@ -9,8 +9,6 @@ import { AuthService } from "../_services/auth.service"
 import { AlertService } from "../_services/alert.service";
 import { LoadingService } from "../_services/loading.service";
 
-import { AlertType } from "../_enums/alert-type.enum";
-
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -32,13 +30,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.createForm();
     }
 
-    ngOnInit() {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+    ngOnInit() {``
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/mabble';
 
         this.subscriptions.push(
             this.auth.currentUser.subscribe(user => {
                 if (!!user) {
-                    this.router.navigateByUrl('/home');
+                    this.router.navigateByUrl('/mabble');
                 }
             })
         );
@@ -67,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 }
             }, err => { this.loadingService.setLoading(false); })
         } else {
-            this.alertService.sendAlert('Your email or password were invalid, try again.', AlertType.Danger);
+            this.alertService.sendAlert('Your email or password were invalid, try again.');
         }
     }
 
@@ -83,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     private afterSignIn() {
         // Do after login stuff here, such router redirects, toast messages, etc.
-        return this.router.navigate(['/home']);
+        return this.router.navigate(['/mabble']);
     }
 
 }

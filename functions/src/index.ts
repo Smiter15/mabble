@@ -17,7 +17,7 @@ exports.onUserStatusChange = functions.database.ref('/status/{uid}').onUpdate(
 
         // Then use other event data to create a reference to the
         // corresponding Firestore document.
-        const userStatusFirestoreRef = firestore.doc(`status/${context.params.uid}`);
+        const userFirestoreRef = firestore.doc(`users/${context.params.uid}`);
 
         // It is likely that the Realtime Database change that triggered
         // this event has already been overwritten by a fast change in
@@ -36,6 +36,6 @@ exports.onUserStatusChange = functions.database.ref('/status/{uid}').onUpdate(
             eventStatus.lastChanged = new Date(eventStatus.lastChanged);
 
             // ... and write it to Firestore.
-            return userStatusFirestoreRef.set(eventStatus);
+            return userFirestoreRef.set(eventStatus, {merge: true});
         });
     });

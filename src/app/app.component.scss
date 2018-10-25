@@ -28,7 +28,19 @@ mat-sidenav {
     width: 300px;
     background: #eaeaea;
     @media only screen and (max-width: 600px) {
-        width: 200px;
+        width: 230px;
+    }
+    .chat-title {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 15px;
+    }
+    .row {
+        margin: 0 !important;
+        border-bottom: 1px solid #ccc;
+    }
+    .col-12 {
+        padding: 0 !important;
     }
 }
 

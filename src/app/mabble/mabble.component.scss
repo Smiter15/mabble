@@ -1,13 +1,30 @@
 @import '../../styles/variables';
 
-h1 {
-    margin-top: 5px;
-    margin-bottom: 0;
+.mabble {
+    h1 {
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+    small {
+        position: relative;
+        top: -8px;
+    }
+    img {
+        max-width: 45px;
+        padding-top: 8px;
+    }
 }
 
-small {
-    position: relative;
-    top: -8px;
+.logout {
+    i {
+        position: relative;
+        top: 3px;
+        margin-right: 3px;
+    }
+    p {
+        text-decoration: underline;
+        margin: 0;
+    }
 }
 
 h2 {
@@ -65,6 +82,9 @@ h2 {
         background: #535353;
         .col-2 {
             padding: 2px;
+            &:hover {
+                animation: button-transition 0.2s linear;
+            }
         }
         img {
             width: 100%;
@@ -93,8 +113,8 @@ h2 {
             margin: 0;
         }
         img {
-            max-width: 200px;
-            max-height: 200px;
+            max-width: 180px;
+            max-height: 180px;
         }
     }
 }
@@ -120,5 +140,17 @@ h2 {
     }
     100% {
         background: #eaeaea;
+    }
+}
+
+@keyframes button-transition {
+    0% {
+        background: #535353;
+    }
+    50% {
+        background: #eaeaea;
+    }
+    100% {
+        background: #535353;
     }
 }

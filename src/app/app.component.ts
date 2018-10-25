@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Subscription } from "rxjs/index";
+import * as firebase from 'firebase';
 
-// Interfaces
-import { Alert } from "./_interfaces/alert.interface";
+import { Subscription } from "rxjs/index";
 
 // Services
 import { AuthService } from "./_services/auth.service";
-import { AlertService } from "./_services/alert.service";
 import { LoadingService } from "./_services/loading.service";
 
 @Component({
@@ -17,38 +15,34 @@ import { LoadingService } from "./_services/loading.service";
 })
 export class AppComponent implements OnInit, OnDestroy{
 
-    public alerts: Array<Alert> = [];
+    private db = firebase.firestore();
+
     private subscriptions: Subscription[] = [];
     public loading: boolean;
 
-    appUser: any;
-
     constructor(public auth: AuthService,
-                private alertService: AlertService,
                 private loadingService: LoadingService) { }
 
     ngOnInit() {
-        this.subscriptions.push(
-            this.auth.currentUser.subscribe(user => {
-                this.appUser = user;
-            })
-        );
-
-        this.subscriptions.push(
-            this.alertService.getAlert().subscribe(alert => {
-                this.alerts.push(alert);
-            })
-        );
-
         this.subscriptions.push(
             this.loadingService.isLoading().subscribe(isLoading => {
                 this.loading = isLoading;
             })
         );
+
+        this.getOnlineUsers();
     }
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
+    }
+
+    getOnlineUsers() {
+        const q = this.db.collection('status').where('state', '==', 'online').get().then(
+            data => {
+                console.log(data);
+            }
+        );
     }
 
 }

@@ -7,7 +7,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../../_services/auth.service';
-import { AlertService } from '../../../_services/alert.service';
 import { LoadingService } from '../../../_services/loading.service';
 
 import * as deck6 from 'src/app/mabble/decks/deck6.default.js';
@@ -33,7 +32,6 @@ export class CreateComponent implements OnInit, OnDestroy {
     constructor(private fb: FormBuilder,
                 private afs: AngularFirestore,
                 public auth: AuthService,
-                private alertService: AlertService,
                 private loadingService: LoadingService,
                 private router: Router) { }
 

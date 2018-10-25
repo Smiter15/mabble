@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, Subject } from "rxjs";
-
-// Interfaces
-import { Alert } from "../_interfaces/alert.interface";
+// Material UI
+import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AlertService {
 
-    public alerts = new Subject<Alert>();
+    vp: MatSnackBarVerticalPosition = 'top';
 
-    constructor() { }
+    constructor(public snackBar: MatSnackBar) { }
 
-    sendAlert(message: string, type) {
-        this.alerts.next({ text: message, type: type });
+    sendAlert(message) {
+        this.snackBar.open(message, 'ok', {
+            duration: 5000,
+            verticalPosition: this.vp
+        });
     }
 
-    getAlert(): Observable<any> {
-        return this.alerts.asObservable();
-    }
 }

@@ -10,8 +10,6 @@ import { AuthService } from '../../../_services/auth.service';
 import { AlertService } from '../../../_services/alert.service';
 import { LoadingService } from '../../../_services/loading.service';
 
-import { AlertType } from '../../../_enums/alert-type.enum';
-
 @Component({
     selector: 'app-join',
     templateUrl: './join.component.html',
@@ -75,12 +73,12 @@ export class JoinComponent implements OnInit, OnDestroy {
                     });
                 } else {
                     this.loadingService.setLoading(false);
-                    this.alertService.sendAlert('Game has finished!', AlertType.Danger);
+                    this.alertService.sendAlert('Game has finished!');
                 }
             } else {
                 this.loadingService.setLoading(false);
                 console.log('No such document!');
-                this.alertService.sendAlert('That game does not exist!', AlertType.Danger);
+                this.alertService.sendAlert('That game does not exist!');
             }
         });
     }

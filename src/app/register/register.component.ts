@@ -4,8 +4,6 @@ import { Router } from "@angular/router";
 
 import { Subscription } from "rxjs/index";
 
-import { AlertType } from "../_enums/alert-type.enum";
-
 import { AuthService } from "../_services/auth.service";
 import { AlertService } from "../_services/alert.service";
 import { LoadingService } from "../_services/loading.service";
@@ -52,15 +50,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 this.loadingService.setLoading(false);
                 if (success !== false) {
                     console.log('register sucess', success);
-                    this.router.navigate(['/home']);
+                    this.router.navigate(['/mabble']);
                 }
             }, err => {
                 console.log(err);
                 this.loadingService.setLoading(false);
-                this.alertService.sendAlert('There was an error registering, try again.', AlertType.Danger);
+                this.alertService.sendAlert('There was an error registering, try again.');
             })
         } else {
-            this.alertService.sendAlert('Please enter valid name, email and password.', AlertType.Danger);
+            this.alertService.sendAlert('Please enter valid name, email and password.');
         }
     }
 

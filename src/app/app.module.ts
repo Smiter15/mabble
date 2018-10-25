@@ -15,23 +15,16 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
-// Bootstrap
-import { AlertModule } from 'ngx-bootstrap';
-
 // Components
 import { AppComponent } from './app.component';
-
-import { HomeComponent } from './home/home.component';
+import { AlertComponent } from './alert/alert.component';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 import { ChatComponent } from './chat/chat.component';
 import { ChatInputComponent } from './chat/components/chat-input/chat-input.component';
-import { ChatroomListComponent } from './chat/components/chatroom-list/chatroom-list.component';
-import { ChatroomTitleBarComponent } from './chat/components/chatroom-title-bar/chatroom-title-bar.component';
 import { ChatMessageComponent } from './chat/components/chat-message/chat-message.component';
-import { ChatroomWindowComponent } from './chat/components/chatroom-window/chatroom-window.component';
 
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
@@ -60,7 +53,6 @@ import { NgxLoadingModule } from 'ngx-loading';
         AngularFireDatabaseModule,
         AngularFireStorageModule,
         AngularFireMessagingModule,
-        AlertModule.forRoot(),
         AppRoutingModule,
         NgxLoadingModule,
         BrowserAnimationsModule,
@@ -68,23 +60,20 @@ import { NgxLoadingModule } from 'ngx-loading';
     ],
     declarations: [
         AppComponent,
+        AlertComponent,
         LoginComponent,
         RegisterComponent,
         UserProfileComponent,
         ChatComponent,
         ChatInputComponent,
-        ChatroomListComponent,
-        ChatroomTitleBarComponent,
         ChatMessageComponent,
-        ChatroomWindowComponent,
         UserProfileEditComponent,
-        HomeComponent,
         MabbleComponent,
         CreateComponent,
         JoinComponent,
         PlayAgainComponent
     ],
-    providers: [],
+    entryComponents: [AlertComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

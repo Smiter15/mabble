@@ -1,9 +1,21 @@
 <section class="container">
 
-    <div class="row">
-        <div class="col-12">
+    <div class="row mabble">
+        <div class="col-9">
             <h1>Mabble</h1>
             <small *ngIf="gameId">{{gameId}}</small>
+        </div>
+        <div class="col-3" *ngIf="gameId === ''">
+            <img class="rounded-circle" [src]="currentUser?.photoURL" [routerLink]="'/profile/' + currentUser?.uid"  />
+        </div>
+    </div>
+
+    <div class="row logout" *ngIf="gameId === ''">
+        <div class="col-12">
+            <small (click)="auth.signOut()">
+                <i class="icon-sign-out float-left"></i>
+                <p class="float-left">Logout</p>
+            </small>
         </div>
     </div>
 

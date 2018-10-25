@@ -12,8 +12,6 @@ import { LoadingService } from "../_services/loading.service"
 
 import { User } from "../_interfaces/user.interface";
 
-import { AlertType } from "../_enums/alert-type.enum";
-
 @Component({
     selector: 'app-user-profile-edit',
     templateUrl: './user-profile-edit.component.html',
@@ -82,7 +80,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
         const user = Object.assign({}, this.currentUser, {photoURL: photo});
         const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
         userRef.set(user);
-        this.alertService.sendAlert('Your profile successfully updated.', AlertType.Success);
+        this.alertService.sendAlert('Your profile successfully updated.');
         this.location.back();
     }
 

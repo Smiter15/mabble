@@ -15,8 +15,6 @@ import { AlertService } from "./alert.service";
 
 import { User } from "../_interfaces/user.interface";
 
-import { AlertType } from "../_enums/alert-type.enum";
-
 @Injectable({
     providedIn: 'root'
 })
@@ -91,7 +89,7 @@ export class AuthService {
                         photoURL: credential.user.photoURL || 'https://goo.gl/Fz9nrQ'
                     };
 
-                    userRef.set(data, {merge: true});
+                    userRef.set(data);
                     return this.updateUserData(credential.user);
                 })
                 .catch(error => this.handleError(error))
@@ -128,15 +126,15 @@ export class AuthService {
     }
     */
     private updateUserData(user: User) {
-        const userStatusRef: AngularFirestoreDocument = this.afs.doc(`status/${user.uid}`);
+        const userRef: AngularFirestoreDocument = this.afs.doc(`users/${user.uid}`);
 
         firebase.database().ref('.info/connected').on('value', function(snapshot) {
 
             if (snapshot.val() == false) {
-                userStatusRef.set({
+                userRef.set({
                     state: 'offline',
                     lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
-                });
+                }, {merge: true});
                 return;
             }
 
@@ -150,14 +148,14 @@ export class AuthService {
                         state: 'online',
                         lastChanged: firebase.database.ServerValue.TIMESTAMP,
                     });
-                    userStatusRef.set({
+                    userRef.set({
                         state: 'online',
                         lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
-                    });
+                    }, {merge: true});
                 });
         });
 
-        firebase.firestore().collection('status').where('state', '==', 'online')
+        firebase.firestore().collection('users').where('state', '==', 'online')
             .onSnapshot(function(snapshot) {
                 snapshot.docChanges().forEach(function(change) {
                     if (change.type === 'added') {
@@ -180,10 +178,10 @@ export class AuthService {
             state: 'offline',
             lastChanged: firebase.database.ServerValue.TIMESTAMP,
         });
-        this.afs.doc(`status/${this.currentUserSnapshot.uid}`).set({
+        this.afs.doc(`users/${this.currentUserSnapshot.uid}`).set({
             state: 'offline',
             lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
-        });
+        }, {merge: true});
         this.afAuth.auth.signOut().then(() => {
             this.router.navigate(['/']);
         });
@@ -192,7 +190,7 @@ export class AuthService {
     // If error, console log and notify user
     private handleError(error: Error) {
         console.error(error);
-        this.alertService.sendAlert(error.message, AlertType.Danger);
+        this.alertService.sendAlert(error.message);
         return false;
     }
 
