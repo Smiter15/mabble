@@ -64,14 +64,18 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
 
         this.subscriptions.push(
             task.percentageChanges().subscribe(percentage => {
-                (percentage < 100) ? this.loadingService.setLoading(true): this.loadingService.setLoading(false);
+                if (percentage < 100) {
+                    this.loadingService.setLoading(true)
+                } else {
+                    this.loadingService.setLoading(false);
+                    this.subscriptions.push(
+                        fileRef.getDownloadURL().subscribe(url => this.downloadURL = url)
+                    );
+                }
                 this.uploadPercent = percentage;
             })
         );
 
-        this.subscriptions.push(
-            fileRef.getDownloadURL().subscribe(url => this.downloadURL = url)
-        );
     }
 
     save(): void {

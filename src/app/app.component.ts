@@ -20,6 +20,9 @@ export class AppComponent implements OnInit, OnDestroy{
     private subscriptions: Subscription[] = [];
     public loading: boolean;
 
+    public onlineUsers: any;
+    public onlineUserCount: number;
+
     constructor(public auth: AuthService,
                 private loadingService: LoadingService) { }
 
@@ -38,11 +41,16 @@ export class AppComponent implements OnInit, OnDestroy{
     }
 
     getOnlineUsers() {
-        const q = this.db.collection('status').where('state', '==', 'online').get().then(
-            data => {
-                console.log(data);
-            }
-        );
+        this.db.collection('users').where('state', '==', 'online').onSnapshot(onlineUsers => {
+
+            let tempOnlineUsers = [];
+            onlineUsers.forEach(function(onlineUser) {
+                tempOnlineUsers.push(onlineUser.data());
+            });
+
+            this.onlineUsers = tempOnlineUsers;
+            this.onlineUserCount = onlineUsers.size;
+        })
     }
 
 }

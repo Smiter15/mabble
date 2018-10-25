@@ -42,6 +42,19 @@ mat-sidenav {
     .col-12 {
         padding: 0 !important;
     }
+    .online-users {
+        padding: 5px 0;
+        .online-users-scroll {
+            overflow-x: scroll;
+            overflow-y: hidden;
+            white-space: nowrap;
+            img {
+                max-width: 50px;
+                display: inline-block;
+                margin-left: 5px;
+            }
+        }
+    }
 }
 
 mat-list {
