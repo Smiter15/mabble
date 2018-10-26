@@ -15,7 +15,8 @@ export class AlertService {
     sendAlert(message) {
         this.snackBar.open(message, 'ok', {
             duration: 5000,
-            verticalPosition: this.vp
+            verticalPosition: this.vp,
+            panelClass: 'notification'
         });
     }
 

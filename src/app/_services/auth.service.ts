@@ -128,6 +128,11 @@ export class AuthService {
     private updateUserData(user: User) {
         const userRef: AngularFirestoreDocument = this.afs.doc(`users/${user.uid}`);
 
+        userRef.set({
+            inWaiting: false,
+            currentGameId: '',
+        }, {merge: true});
+
         firebase.database().ref('.info/connected').on('value', function(snapshot) {
 
             if (snapshot.val() == false) {
@@ -155,6 +160,7 @@ export class AuthService {
                 });
         });
 
+        /*
         firebase.firestore().collection('users').where('state', '==', 'online')
             .onSnapshot(function(snapshot) {
                 snapshot.docChanges().forEach(function(change) {
@@ -170,6 +176,7 @@ export class AuthService {
                     }
                 });
             });
+            */
 
     }
 

@@ -3,7 +3,7 @@
     <div class="row mabble">
         <div class="col-9">
             <h1>Mabble</h1>
-            <small *ngIf="gameId">{{gameId}}</small>
+            <small *ngIf="gameId" (click)="copyGameId(gameId)">{{gameId}}</small>
         </div>
         <div class="col-3" *ngIf="gameId === ''">
             <img class="rounded-circle" [src]="currentUser?.photoURL" [routerLink]="'/profile/' + currentUser?.uid"  />

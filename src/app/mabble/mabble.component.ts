@@ -7,10 +7,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../_services/auth.service';
+import { AlertService } from "../_services/alert.service";
 
 import { PlayAgainComponent } from './components/play-again/play-again.component';
 
 import { Howl, Howler } from 'howler';
+
+import clipboard from "clipboard-polyfill/build/clipboard-polyfill.promise";
 
 @Component({
     selector: 'app-mabble',
@@ -40,6 +43,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
     constructor(private fb: FormBuilder,
                 private afs: AngularFirestore,
                 public auth: AuthService,
+                private alertService: AlertService,
                 private router: Router,
                 private route: ActivatedRoute) {
         this.subscriptions.push(
@@ -64,6 +68,11 @@ export class MabbleComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
+    public copyGameId(gameId) {
+        clipboard.writeText(gameId);
+        this.alertService.sendAlert('Copied game ID');
+    }
+
     private setGame() {
         console.log('set game');
         // reset stuff for play again feature
@@ -77,6 +86,11 @@ export class MabbleComponent implements OnInit, OnDestroy {
                 this.checkSnap(this.players);
                 if (this.game.nextGameURL !== null) {
                     this.router.navigateByUrl(this.game.nextGameURL);
+                }
+                if (this.game.started) {
+                    this.afs.doc(`users/${this.currentUser.uid}`).set({
+                        inWaiting: false
+                    }, {merge: true});
                 }
             })
         );
@@ -105,6 +119,11 @@ export class MabbleComponent implements OnInit, OnDestroy {
 
             if (this.game.noPlayers === this.playersLength) {
                 this.startGame();
+            } else {
+                this.afs.doc(`users/${this.currentUser.uid}`).set({
+                    inWaiting: true,
+                    currentGameId: this.gameId
+                }, {merge: true});
             }
         }, 1000);
 

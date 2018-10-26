@@ -32,7 +32,13 @@
             <div class="col-12">
                 <div class="online-users-scroll">
                     <ng-container *ngFor="let user of onlineUsers">
-                        <img class="rounded-circle" [src]="user.photoURL" />
+                        <div class="online-user-container" [ngStyle]="user.inWaiting && {'background': '#b6ffae'}">
+                            <img class="rounded-circle" [src]="user.photoURL" [matMenuTriggerFor]="menu" />
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item [routerLink]="'/profile/' + user.uid" (click)="sidenavRight.close()">View profile</button>
+                                <button *ngIf="user.inWaiting" mat-menu-item (click)="sidenavRight.close(); joinGame(user.currentGameId)">Join game</button>
+                            </mat-menu>
+                        </div>
                     </ng-container>
                 </div>
             </div>

@@ -31,10 +31,23 @@ mat-list-item {
 }
 
 .mat-tab-label {
-    width: 100%;
+    width: 99%;
+}
+
+.mat-menu-content {
+    button {
+        &:focus {
+            outline: 0;
+        }
+    }
 }
 
 /* Alert classes */
 .mat-snack-bar-container {
     min-width: 1px !important;
+    &.notification {
+        button {
+            color: darkorange;
+        }
+    }
 }

@@ -14,9 +14,7 @@ export class IsOwnerGuard implements CanActivate {
 
     constructor(private router: Router,
                 private auth: AuthService,
-                private alertService: AlertService) {
-
-    }
+                private alertService: AlertService) {}
 
     canActivate(
         next: ActivatedRouteSnapshot,

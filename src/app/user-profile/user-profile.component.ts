@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { AuthService } from "../_services/auth.service";
 
-import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/firestore";
+import * as firebase from 'firebase';
 
 import { Subscription } from "rxjs";
 
@@ -18,6 +18,8 @@ import { LoadingService } from "../_services/loading.service";
 })
 export class UserProfileComponent {
 
+    private db = firebase.firestore();
+
     public currentUser: any = null;
     public user: User;
     private subscriptions: Subscription[] = [];
@@ -25,8 +27,7 @@ export class UserProfileComponent {
     constructor(
         private auth: AuthService,
         private loadingService: LoadingService,
-        private route: ActivatedRoute,
-        private afs: AngularFirestore
+        private route: ActivatedRoute
     ) {
         this.loadingService.setLoading(true);
     }
@@ -40,10 +41,11 @@ export class UserProfileComponent {
         );
 
         this.subscriptions.push(
-            this.route.paramMap.subscribe( params => {
-                const userId = params.get('userId');
-                const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${userId}`);
-                userRef.valueChanges().subscribe(user => this.user = user);
+            this.route.params.subscribe( params => {
+                const userId = params['userId'];
+                this.db.doc(`users/${userId}`).get().then(user => {
+                    this.user = user.data();
+                });
             })
         );
     }

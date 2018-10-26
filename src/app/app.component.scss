@@ -48,10 +48,16 @@ mat-sidenav {
             overflow-x: scroll;
             overflow-y: hidden;
             white-space: nowrap;
-            img {
+            .online-user-container {
+                margin-left: 5px;
                 max-width: 50px;
                 display: inline-block;
-                margin-left: 5px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                img {
+                    max-width: 50px;
+                }
             }
         }
     }

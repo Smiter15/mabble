@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from "@angular/router";
 
 import * as firebase from 'firebase';
 
@@ -20,11 +21,19 @@ export class AppComponent implements OnInit, OnDestroy{
     private subscriptions: Subscription[] = [];
     public loading: boolean;
 
+    public currentUser: any | null;
     public onlineUsers: any;
     public onlineUserCount: number;
 
     constructor(public auth: AuthService,
-                private loadingService: LoadingService) { }
+                private loadingService: LoadingService,
+                private router: Router,) {
+        this.subscriptions.push(
+            this.auth.currentUser.subscribe(user => {
+                this.currentUser = user;
+            })
+        );
+    }
 
     ngOnInit() {
         this.subscriptions.push(
@@ -51,6 +60,32 @@ export class AppComponent implements OnInit, OnDestroy{
             this.onlineUsers = tempOnlineUsers;
             this.onlineUserCount = onlineUsers.size;
         })
+    }
+
+    joinGame(gameId) {
+        this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).doc(gameId).get().then(game => {
+            this.loadingService.setLoading(true);
+            console.log('game', game.data());
+            const players = game.data().players;
+            let player = {};
+            player = {
+                score: 0,
+                displayName: this.currentUser.displayName,
+                photoURL: this.currentUser.photoURL,
+                uid: this.currentUser.uid,
+                playerClass: null,
+                imageClass: null
+            };
+            players[this.currentUser.uid] = player;
+            this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).doc(gameId).update({
+                players: players
+            }).then(() => {
+                console.log('added player through join', player);
+                this.loadingService.setLoading(false);
+                // send user to game
+                this.router.navigateByUrl('mabble/' + gameId);
+            });
+        });
     }
 
 }

@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="message-wrapper" #scrollContainer>
-            <ng-container *ngIf="(messages?.length > 0); else noMessages">
+            <ng-container *ngIf="(messages); else noMessages">
                 <ng-container *ngFor="let message of messages">
                     <app-chat-message [message]="message"></app-chat-message>
                 </ng-container>
